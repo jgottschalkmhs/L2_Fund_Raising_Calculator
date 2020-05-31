@@ -7,7 +7,7 @@ def num_check(type, question, lowest):
   else:
     error_specific = "a number"
 
-  error = "Please enter {} that is more than {} ".format(error_specific, lowest)
+  error = "Please enter {} that is more than {} \n".format(error_specific, lowest)
 
   valid = False
   while not valid:
