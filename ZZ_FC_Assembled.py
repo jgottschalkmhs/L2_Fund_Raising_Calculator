@@ -153,7 +153,7 @@ def profit_goal(total_costs):
       continue
 
     if profit_type == "unknown":
-      find_type = input("Do you mean ${:.2f}.  ie {:.2f} dollars? , y / n ".format(amount, amount))
+      find_type = yes_no("Do you mean ${:.2f}.  ie {:.2f} dollars? , y / n ".format(amount, amount))
 
       # Set profit type based on user answer above
       if find_type == "yes":
