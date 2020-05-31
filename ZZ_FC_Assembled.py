@@ -1,6 +1,6 @@
 #  *** Functions go here ****
 
-
+# Checks response is a valid number
 def num_check(type, question, lowest):
 
   # Set up error message so that it specifies either 'an integer' or 'a number' depending on the 'type'.
@@ -39,6 +39,7 @@ def not_blank(question):
     else:
       print("Sorry, this can't be blank.\n")
 
+
 # Checks answer to y / n question is yes / no
 def yes_no(question):
 
@@ -56,6 +57,7 @@ def yes_no(question):
         return item
 
     print("Please enter either yes or no...\n")
+
 
 # Asks user for item and cost and returns 2D list
 def get_costs(title):
@@ -86,24 +88,84 @@ def get_costs(title):
 
   return all_costs
 
-# Prints 2D cost list and returns subtotal
-def print_costs(heading, cost_list, num_items):
-  # Iterate through list and add costs
+
+def get_total(cost_list, num_items):
+    # Iterate through list and add costs
   subtotal = 0
   for item in cost_list:
     subtotal += item[1]
+
+  final_subtotal = subtotal * num_items
+
+  return final_subtotal
+
+# Prints 2D cost list and returns subtotal
+def print_costs(heading, cost_list, subtotal):
 
   # Output goes here...
   print()
   print("***** {} *****".format(heading))
 
   for item in cost_list:
-    print("{} - ${}".format(item[0], item[1]))
+    print("{} - ${:.2f}".format(item[0], item[1]))
 
-  print("\nTotal: ${:.2f}\n".format(subtotal * num_items))
+  print("\nTotal: ${:.2f}\n".format(subtotal))
   
-  # Return sub total so that it can be used to find recommended price
-  return subtotal
+  return ""
+
+# Calculates profit...
+def profit_goal(total_costs):
+
+  error = "Please enter a valid profit goal\n"
+    
+  valid = False
+  while not valid:
+    
+    # ask for profit goal...
+    response = input("What is your profit goal (eg $50 or 50%) ")
+
+    # check if first character is $...
+    if response[0] == "$":
+      profit_type = "$"
+      # Get amount (everything after the $)
+      amount = response[1:]
+    
+    # check if last character is %
+    elif response [-1] == "%":
+      profit_type = "%"
+      # Get amount (everything before the %)
+      amount = response[:-1]
+
+    else:
+      # set response to amount for now
+      profit_type = "unknown"
+      amount = response
+
+    try:
+      # Check amount is a number more than zero...
+      amount = float(amount)
+      if amount < 0:
+        print(error)
+        continue
+    
+    except ValueError:
+      print(error)
+      continue
+
+    if profit_type == "unknown":
+      find_type = input("Do you mean ${:.2f}.  ie {:.2f} dollars? , y / n ".format(amount, amount))
+
+      # Set profit type based on user answer above
+      if find_type == "yes":
+        profit_type = "$"
+      else: profit_type = "%"
+
+    if profit_type == "$":
+      return amount
+    else:
+      goal = (amount / 100) * total_costs
+      return goal
+
 
 # ***** Main Routine goes here *****
 product_name = not_blank("What will you be making? ")   # check not blank
@@ -111,8 +173,35 @@ how_many = num_check(int,"How many items will you be making? ",0)  # check that 
 
 # Get variable costs...
 variable_costs = get_costs("Variable Costs")
+variable_sub = get_total(variable_costs, how_many)
 
-# Output costs
-show_variable = print_costs("Variable Costs", variable_costs, how_many)
+print()
+have_fixed = yes_no("Do you have fixed costs? ")
 
+# Get fixed costs...
+if have_fixed != "no":
+  fixed_costs = get_costs("Fixed Costs")
+  fixed_sub = get_total(fixed_costs, 1)
+else:
+  fixed_sub = 0
+
+# Work out total Cost
+total_cost = variable_sub + fixed_sub
+
+# Ask how much profit should be made
+print()
+profit_target = profit_goal(total_cost)
+sales_needed = total_cost + profit_target
+print()
+
+# Output...
+print("**** Costs Schedule to make {} ******".format(product_name))
+
+print_costs("Variable Costs", variable_costs, variable_sub)
+print_costs("Fixed Costs", fixed_costs, fixed_sub)
+
+# Show Totals and price recommendation
+print("Total Costs: {:.2f}".format(total_cost))
+print("Profit Target: {:.2f}".format(profit_target))
+print("Total Amount in Sales Needed: {:.2f}".format(sales_needed))
 
