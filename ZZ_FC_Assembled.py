@@ -60,6 +60,29 @@ def yes_no(question):
     print("Please enter either yes or no...\n")
 
 
+# Displays instructions if program has not been used before
+def instructions():
+  
+  first_time = yes_no("\nIt this your first time using the program? ")
+
+  # instructions only display if user says it is their first time using the program
+  if first_time == "no":
+    return ""
+  
+  print()
+  print("***** Instructions ******")
+  print()
+  print("This program will ask you for...")
+  print("- The name of the product you are selling")
+  print("- How many items you plan on selling")
+  print("- The costs for each component of the product")
+  print("- How much money you want o make")
+  print()
+  print("It will then output an itemised list of of the costs with subtotals for the variable and fixed costs.")
+  print("Finally it will tell you how much you should sell each item for to reach your profit goal.")
+  print()
+
+
 # rounding function
 def round_up(amount, round_to):
     # rounds amount UP to the specified amount (round_to)
@@ -175,6 +198,15 @@ def profit_goal(total_costs):
 
 
 # ***** Main Routine goes here *****
+
+# Title / Welcome
+print("****** Welcome to the Fund Raising Calculator ******")
+
+# Ask user if its their first time and if it is, display instructions
+instructions()
+
+print()
+
 product_name = not_blank("What will you be making? ")   # check not blank
 how_many = num_check(int,"How many items will you be making? ",0)  # check that this is an integer more than 1
 
