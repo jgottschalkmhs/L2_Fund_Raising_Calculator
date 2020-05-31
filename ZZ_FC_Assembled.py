@@ -1,3 +1,4 @@
+import math
 #  *** Functions go here ****
 
 # Checks response is a valid number
@@ -57,6 +58,12 @@ def yes_no(question):
         return item
 
     print("Please enter either yes or no...\n")
+
+
+# rounding function
+def round_up(amount, round_to):
+    # rounds amount UP to the specified amount (round_to)
+    return int(round_to * round(math.ceil(amount) / round_to))
 
 
 # Asks user for item and cost and returns 2D list
@@ -191,7 +198,11 @@ total_cost = variable_sub + fixed_sub
 # Ask how much profit should be made
 print()
 profit_target = profit_goal(total_cost)
+
+# work out sales needed and recommended price
 sales_needed = total_cost + profit_target
+price_unrounded = sales_needed / how_many
+recommended_price = round_up(price_unrounded, 1)
 print()
 
 # Output...
@@ -201,7 +212,10 @@ print_costs("Variable Costs", variable_costs, variable_sub)
 print_costs("Fixed Costs", fixed_costs, fixed_sub)
 
 # Show Totals and price recommendation
-print("Total Costs: {:.2f}".format(total_cost))
-print("Profit Target: {:.2f}".format(profit_target))
-print("Total Amount in Sales Needed: {:.2f}".format(sales_needed))
+print("Total Costs: ${:.2f}".format(total_cost))
+print("Profit Target: ${:.2f}".format(profit_target))
+print("Total Amount in Sales Needed: ${:.2f}".format(sales_needed))
+print()
+recommended_price = round_up(price_unrounded, 1)
+print("Recommended Price: ${:.2f}".format(recommended_price))
 
