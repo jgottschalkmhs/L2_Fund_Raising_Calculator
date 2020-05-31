@@ -28,22 +28,31 @@ def get_costs(title):
 
   return all_costs
 
+def print_costs(heading, cost_list, num_items):
+  # Iterate through list and add costs
+  subtotal = 0
+  for item in cost_list:
+    subtotal += item[1]
+
+  # Output goes here...
+  print()
+  print("***** {} *****".format(heading))
+
+  for item in cost_list:
+    print("{} - ${}".format(item[0], item[1]))
+
+  print("\nTotal: ${:.2f}\n".format(subtotal * num_items))
+  
+  # Return sub total so that it can be used to find recommended price
+  return subtotal
+
 # ***** Main Routine goes here *****
 product_name = input("What will you be making? ")   # check not blank
 how_many = int(input("How many items will you be making? "))  # check that this is an integer more than 1
 
+# Get variable costs...
 variable_costs = get_costs("Variable Costs")
 
-# Iterate through list and add costs
-var_sum = 0
-for item in variable_costs:
-  var_sum += item[1]
+# Output costs
+show_variable = print_costs("Variable Costs", variable_costs, how_many)
 
-# Output goes here...
-print()
-print("***** Variable Costs *****")
-
-for item in variable_costs:
-  print("{} - ${}".format(item[0], item[1]))
-
-print("\nTotal: ${:.2f}\n".format(var_sum * how_many))
