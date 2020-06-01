@@ -256,7 +256,7 @@ print_costs("Variable Costs", variable_costs, variable_sub)
 if have_fixed != "no":
   print_costs("Fixed Costs", fixed_costs, fixed_sub)
 else:
-  print("\nYou have no fixed costs")
+  print("\n ***** You have no fixed costs *****\n")
 
 # Show Totals and price recommendation
 print("Total Costs: ${:.2f}".format(total_cost))
