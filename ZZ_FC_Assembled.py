@@ -76,9 +76,9 @@ def instructions():
   print("- The name of the product you are selling")
   print("- How many items you plan on selling")
   print("- The costs for each component of the product")
-  print("- How much money you want o make")
+  print("- How much money you want to make")
   print()
-  print("It will then output an itemised list of of the costs with subtotals for the variable and fixed costs.")
+  print("It will then output an itemised list of the costs with subtotals for the variable and fixed costs.")
   print("Finally it will tell you how much you should sell each item for to reach your profit goal.")
   print()
 
@@ -101,10 +101,20 @@ def get_costs(title):
   while not valid:
     # List to contain each item (name, amount)
     costs_items = []
-    item_name = not_blank("What is the item name? ") 
+
+    if len(all_costs) == 0:
+      comp_question = "Component Name: "
+    else:
+      comp_question = "Component name (or 'xxx' to move on): "
+
+    item_name = not_blank(comp_question) 
+
+    if item_name.lower() == "xxx" and len(all_costs) == 0:
+      print("You must have at least one item")
+      continue
 
     if item_name.lower() != "xxx":
-      item_cost = num_check(float, "What is the cost? ", 0)
+      item_cost = num_check(float, "What is the cost? $", 0)
 
     else:
       break
@@ -222,6 +232,7 @@ if have_fixed != "no":
   fixed_costs = get_costs("Fixed Costs")
   fixed_sub = get_total(fixed_costs, 1)
 else:
+  fixed_costs = []
   fixed_sub = 0
 
 # Work out total Cost
@@ -241,7 +252,11 @@ print()
 print("**** Costs Schedule to make {} ******".format(product_name))
 
 print_costs("Variable Costs", variable_costs, variable_sub)
-print_costs("Fixed Costs", fixed_costs, fixed_sub)
+
+if have_fixed != "no":
+  print_costs("Fixed Costs", fixed_costs, fixed_sub)
+else:
+  print("\nYou have no fixed costs")
 
 # Show Totals and price recommendation
 print("Total Costs: ${:.2f}".format(total_cost))
