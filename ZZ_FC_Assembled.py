@@ -139,7 +139,7 @@ def print_costs(heading, cost_list, subtotal):
   for item in cost_list:
     print("{} - ${:.2f}".format(item[0], item[1]))
 
-  print("\nTotal: ${:.2f}\n".format(subtotal))
+  print("\n{} Subtotal: ${:.2f}\n".format(heading, subtotal))
   
   return ""
 
@@ -174,7 +174,7 @@ def profit_goal(total_costs):
     try:
       # Check amount is a number more than zero...
       amount = float(amount)
-      if amount < 0:
+      if amount <= 0:
         print(error)
         continue
     
